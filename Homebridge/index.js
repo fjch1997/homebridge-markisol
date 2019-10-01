@@ -34,10 +34,30 @@ class MarkisolAccessory {
         windowCoveringService
             .getCharacteristic(Characteristic.CurrentPosition)
             .on('get', (callback) => {
-                callback(null, 100);
+                callback(null, "100");
             })
             .on('set', (value, callback) => {
                 this.log.info("CurrentPosition set called.");
+                callback();
+            });
+        windowCoveringService
+            .getCharacteristic(Characteristic.TargetPosition)
+            // The corresponding value is an integer percentage. A value of 0 indicates a door or window should be fully closed, or that awnings
+            // or shades should permit the least possible light. A value of 100 indicates the opposite.
+            .on('get', (callback) => {
+                callback(null, "100");
+            })
+            .on('set', (value, callback) => {
+                this.log.info("TargetPosition set called.");
+                callback();
+            });
+        windowCoveringService
+            .getCharacteristic(Characteristic.HoldPosition)
+            .on('set', (value, callback) => {
+                // The corresponding value is a write-only Boolean. Write a value of true to indicate that the current position should be maintained. 
+                // The accessory ignores a written value of false. Write a value to the HMCharacteristicTypeTargetPosition characteristic to 
+                // release the hold.
+                this.log.info("Hold position was set to " + value);
                 callback();
             });
         this.windowCoveringService = windowCoveringService;
