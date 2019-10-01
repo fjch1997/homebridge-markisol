@@ -17,6 +17,12 @@
             "name": "Living Room Blind (Left)",
             "remoteId": "1011101111101111",
             "channel": "1000"
+        },
+        {
+            "accessory": "MarkisolBlind",
+            "name": "Living Room Blind (Right)",
+            "remoteId": "1011101111101111",
+            "channel": "1001"
         }
     ],
     "platforms": []
