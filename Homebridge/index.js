@@ -1,3 +1,7 @@
+import { SerialPort } from "serialport";
+import { Readline } from "serialport/lib/parsers";
+import { prototype } from "@serialport/parser-cctalk";
+
 var Accessory, Characteristic, UUIDGen;
 
 module.exports = function (homebridge) {
@@ -23,10 +27,13 @@ class MarkisolAccessory {
             this.log.error("A name for this MarkisolBlind accessory is not defined. " + errorMessage);
         }
         if (!this.config.remoteId) {
-            this.log.error("remoteId not defined for " + this.config.name + ". " + errorMessage);
+            this.log.error("remoteId is not defined for " + this.config.name + ". " + errorMessage);
         }
         if (!this.config.channel) {
-            this.log.error("channel not defined for " + this.config.name + ". " + errorMessage);
+            this.log.error("channel is not defined for " + this.config.name + ". " + errorMessage);
+        }
+        if (!this.config.serialPortName) {
+            this.log.error("serialPortName is not defined for " + this.config.name + ". " + errorMessage);
         }
     }
     getServices() {
@@ -62,5 +69,26 @@ class MarkisolAccessory {
             });
         this.windowCoveringService = windowCoveringService;
         return [windowCoveringService];
+    }
+    initializeSerial() {
+        this.serialPort = new SerialPort(this.config.serialPortName, { baudRate: 9600 });
+        this.parser = this.serialPort.pipe(new Readline({ delimiter: '\n' }));
+        this.serialPort.on("open", () => {
+            this.log.info("Serial port sucessfully opened. Sending handshake to Arduino.");
+            this.serialPort.write("Hello", (err) => {
+                if (err) {
+                    return console.log('Failed to write serial: ', err.message);
+                }
+                this.log.debug("Hello sent.");
+            })
+        });
+        parser.on('data', data => {
+            if (data === "Hello") {
+                this.log.info("Connection to Arduino established.");
+            }
+            else {
+                this.log.error("Invalid data received from Arduino: " + data);
+            }
+        });
     }
 }

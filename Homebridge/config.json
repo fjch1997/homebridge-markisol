@@ -16,13 +16,15 @@
             "accessory": "MarkisolBlind",
             "name": "Living Room Blind (Left)",
             "remoteId": "1011101111101111",
-            "channel": "1000"
+            "channel": "1000",
+            "serialPortName": "COM1"
         },
         {
             "accessory": "MarkisolBlind",
             "name": "Living Room Blind (Right)",
             "remoteId": "1011101111101111",
-            "channel": "1001"
+            "channel": "1001",
+            "serialPortName": "COM1"
         }
     ],
     "platforms": []

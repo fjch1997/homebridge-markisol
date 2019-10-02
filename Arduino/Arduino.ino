@@ -187,7 +187,12 @@ void receiveData() {
 
 void loop() {
   receiveData();
-  sendMarkisolCommand(data);
+  if (strcmp(data, "Hello") == 0) {
+    Serial.println("Hello");
+  }
+  else {
+    sendMarkisolCommand(data);
+  }
   // Pair a shade (first set the shade to pairing mode by holding
   // down its P/SETTING button until the "TA-TA" or a beep):
   //sendMarkisolCommand(SHADE_PAIR_EXAMPLE);
