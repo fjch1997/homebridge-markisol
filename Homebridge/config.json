@@ -1,9 +1,9 @@
 {
     "bridge": {
-        "name": "Homebridge",
-        "username": "8D:F6:98:DE:80:41",
+        "name": "Homebridge Testing",
+        "username": "8D:F6:98:DE:80:42",
         "port": 64545,
-        "pin": "283-88-184"
+        "pin": "283-88-185"
     },
     "description": "",
     "ports": {
@@ -11,22 +11,25 @@
         "end": 52150,
         "comment": "This section is used to control the range of ports that separate accessory (like camera or television) should be bind to."
     },
+    "plugins":["Homebridge"],
     "accessories": [
         {
             "accessory": "MarkisolBlind",
             "name": "Living Room Blind (Left)",
             "remoteId": "1011101111101111",
             "channel": "1000",
-            "serialPortName": "COM1",
-            "travelDurationSeconds": 20
+            "serialPortName": "\\\\.\\COM3",
+            "upTravelDurationSeconds": 40,
+            "downTravelDurationSeconds": 34
         },
         {
             "accessory": "MarkisolBlind",
             "name": "Living Room Blind (Right)",
             "remoteId": "1011101111101111",
             "channel": "1001",
-            "serialPortName": "COM1",
-            "travelDurationSeconds": 20
+            "serialPortName": "COM3",
+            "upTravelDurationSeconds": 40,
+            "downTravelDurationSeconds": 34
         }
     ],
     "platforms": []

@@ -97,7 +97,7 @@
 #define SHADE_LIMIT_EXAMPLE                "10111011111011111000010010000011110100101" // L button
 #define SHADE_CHANGE_DIRECTION_EXAMPLE     "10111011111011111000000110000011110101111" // STOP + L buttons
 
-#define TRANSMIT_PIN                       13   // We'll use digital 13 for transmitting
+#define TRANSMIT_PIN                       7   // We'll use digital 13 for transmitting
 #define REPEAT_COMMAND                      8   // How many times to repeat the same command: original remotes repeat 8 (multi) or 10 (single) times by default
 #define DEBUG                           false   // Do note that if you print serial output during transmit, it will cause delay and commands may fail
 
@@ -132,9 +132,9 @@
 
 
 // NOTE: If you're having issues getting the motors to respond, try these previous defaults:
-//#define MARKISOL_AGC2_PULSE                   2410  // 107 samples
-//#define MARKISOL_AGC3_PULSE                   1320  // 59 samples
-//#define MARKISOL_PULSE_SHORT                  300   // 13 samples
+#define MARKISOL_AGC2_PULSE                   2410  // 107 samples
+#define MARKISOL_AGC3_PULSE                   1320  // 59 samples
+#define MARKISOL_PULSE_SHORT                  300   // 13 samples
 
 
 
@@ -158,7 +158,10 @@ void receiveData() {
   memset(data, 32, sizeof(data));
   // read while we have data available and we are
   // still receiving the same message.
-  while(Serial.available() > 0) {
+  while(true) {
+    if (Serial.available() <= 0) {
+      continue;
+    }
     receivedChar = Serial.read();
     if (receivedChar == endMarker) {
       data[ndx] = '\0'; // end current message
@@ -178,11 +181,6 @@ void receiveData() {
       break;
     }
   }
-  // no more available bytes to read from serial and we
-  // did not receive the separato. it's an incomplete message!
-  Serial.println("error: incomplete message");
-  Serial.println(data);
-  memset(data, 32, sizeof(data));
 }
 
 void loop() {
@@ -191,41 +189,10 @@ void loop() {
     Serial.println("Hello");
   }
   else {
-    sendMarkisolCommand(data);
+    Serial.print("Sending ");
+    Serial.println(data);
+    sendMarkisolCommand(data);    
   }
-  // Pair a shade (first set the shade to pairing mode by holding
-  // down its P/SETTING button until the "TA-TA" or a beep):
-  //sendMarkisolCommand(SHADE_PAIR_EXAMPLE);
-  //while (true) {} // Stop after pairing, you can use UP/STOP/DOWN commands afterwards
-  // ---
-
-
-  // Send DOWN/STOP/UP commands after pairing:
-  //sendMarkisolCommand(SHADE_DOWN_EXAMPLE);
-  //delay(3000);
-  
-  //sendMarkisolCommand(SHADE_STOP_EXAMPLE);
-  //delay(3000);
-  
-  //sendMarkisolCommand(SHADE_UP_EXAMPLE);
-  //delay(3000);
-
-
-  // --- Short commands ---
-  // If your remote is single channel (like the BF-301), you only need the remote ID.
-  // You can make up your own "virtual" ID, too. In that case, just set the motor to
-  // pairing mode and transmit COMMAND_PAIR first.
-
-  // Do note that short commands may not work with every motor. The full 41 bit
-  // binary command has bits and pieces that some models require, others don't.
-
-  //sendShortMarkisolCommand(MY_REMOTE_ID_1, COMMAND_PAIR);
-  //while (true) {} // Stop after pairing
-  // ---
-  
-  //sendShortMarkisolCommand(MY_REMOTE_ID_1, COMMAND_DOWN);
-  //delay(3000);
-
 }
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------
 

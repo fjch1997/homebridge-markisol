@@ -9,7 +9,7 @@
             "request": "launch",
             "name": "Launch Program",
             "program": "${env:APPDATA}\\npm\\node_modules\\homebridge\\bin\\homebridge",
-            "args": ["-D", "-P", "${workspaceFolder}\\Homebridge", "--user-storage-path", "${workspaceFolder}\\Homebridge"],
+            "args": ["-D", "-P", "${workspaceFolder}\\Homebridge", "-U", "${workspaceFolder}\\Homebridge"],
             "cwd": "${workspaceFolder}\\Homebridge"
         }
     ]
