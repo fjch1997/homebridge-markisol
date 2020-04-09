@@ -1,6 +1,6 @@
 # homekit-markisol
 
-Adds homekit support to Markisol protocol 433.92MHz motorized window shades. Arduino code adapted from 
+Adds homekit support to Markisol protocol 433.92MHz motorized window shades. Arduino code adapted from https://github.com/akirjavainen/markisol.
 
 # Requirement
 
